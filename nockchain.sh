@@ -96,7 +96,7 @@ function generate_wallet() {
   "$NCK_DIR/target/release/nockchain-wallet" keygen 2>&1 | tr -d '\0' | tee "$tmpfile"
 
   if [ ${PIPESTATUS[0]} -eq 0 ]; then
-    echo -e "${GREEN}[+] 钱包生成成功！/ Wallet generated successfully.${RESET}"
+    echo -e "${GREEN}[+] Rosemary钱包生成成功！/ Wallet generated successfully.${RESET}"
 
     # 从临时文件提取信息
     mnemonic=$(grep "wallet: memo:" "$tmpfile" | head -1 | sed -E 's/^.*wallet: memo: (.*)$/\1/')
@@ -108,12 +108,13 @@ function generate_wallet() {
     echo -e "${BOLD}私钥 (Private Key):${RESET}\n$private_key\n"
     echo -e "${BOLD}公钥 (Public Key):${RESET}\n$public_key\n"
     echo -e "${YELLOW}========================================${RESET}\n"
+    echo -e "${YELLOW}[!] 钱包信息已保存至临时文件 / Wallet info saved to: $tmpfile${RESET}"
   else
     echo -e "${RED}[-] 钱包生成失败！/ Wallet generation failed!${RESET}"
   fi
 
-  # 删除临时文件
-  rm -f "$tmpfile"
+  # 不删除临时文件，注释掉以下行
+  # rm -f "$tmpfile"
 
   pause_and_return
 }
